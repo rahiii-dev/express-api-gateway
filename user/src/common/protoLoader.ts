@@ -1,7 +1,7 @@
 import path from 'path';
 import * as protoLoader from '@grpc/proto-loader';
 import * as grpc from '@grpc/grpc-js';
-import environment from '../config/environment';
+import environment from '../core/environment';
 
 export const loadProto = (protoFileName: string): any => {
   const protoPath = environment.env === "development" 
