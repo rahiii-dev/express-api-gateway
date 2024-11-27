@@ -1,13 +1,15 @@
 import path from 'path';
 import * as protoLoader from '@grpc/proto-loader';
 import * as grpc from '@grpc/grpc-js';
-import environment from '../src/config/environment';
+import environment from '../config/environment';
 
 export const loadProto = (protoFileName: string): any => {
-  const protoPath = environment.env === "development" ? `../../_proto/${protoFileName}` : '../_proto/${protoFileName}';
-
+  const protoPath = environment.env === "development" 
+    ? path.resolve(`../_proto/${protoFileName}`) 
+    : path.resolve(__dirname, `../../_proto/${protoFileName}`);
+  
   const packageDefinition = protoLoader.loadSync(
-    path.resolve(__dirname, protoPath),
+    protoPath,
     {
       keepCase: true,
       longs: String,

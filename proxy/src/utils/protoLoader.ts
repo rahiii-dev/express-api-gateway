@@ -6,7 +6,7 @@ import environment from '../config/environment';
 export const loadProto = (protoFileName: string): any => {
   const protoPath = environment.env === "development" 
     ? path.resolve(`../_proto/${protoFileName}`) 
-    : path.resolve(__dirname, `../_proto/${protoFileName}`);
+    : path.resolve(__dirname, `../../_proto/${protoFileName}`);
     
   const packageDefinition = protoLoader.loadSync(protoPath, {
     keepCase: true,
