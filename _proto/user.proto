@@ -4,6 +4,7 @@ package userPackage;
 
 service userService {
     rpc GetUsers (Empty) returns (GetUsersResponse);
+    rpc AddUsers (User) returns (User);
 }
 
 message User {
