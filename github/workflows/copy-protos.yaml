@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '_proto/**'
+      - 'protos/**'
 
 jobs:
   copy-files:
@@ -20,5 +20,5 @@ jobs:
         services=("user")
 
         for service in "${services[@]}"; do
-          cp ./_proto/*.proto ./$service/_proto/
+          cp ./protos/*.proto ./$service/protos/
         done
