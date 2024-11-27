@@ -1,0 +1,24 @@
+name: Copy file from protos to services
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '_proto/*'
+
+jobs:
+  copy-files:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Copy .proto files to services
+      run: |
+        services=("user")
+
+        for service in "${services[@]}"; do
+          cp ./_proto/*.proto ./$service/_proto/
+        done
