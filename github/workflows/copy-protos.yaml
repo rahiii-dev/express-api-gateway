@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '_proto/*'
+      - '_proto/**'
 
 jobs:
   copy-files:
