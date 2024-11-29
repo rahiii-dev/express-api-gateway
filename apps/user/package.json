@@ -1,0 +1,25 @@
+{
+  "name": "user",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts"
+  },
+  "dependencies": {
+    "@app/common": "*",
+    "@app/core": "*",
+    "@grpc/grpc-js": "^1.12.2",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.3"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.7"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@app/clients",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@app/common": "*",
+    "@grpc/grpc-js": "^1.12.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*"
+  }
+}

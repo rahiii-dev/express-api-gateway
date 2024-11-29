@@ -3,13 +3,9 @@
   "tasks": {
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
+      "outputs": ["dist/**", "public/dist/**"],
       "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_API_HOST"]
-    },
-    "test": {
-      "outputs": ["coverage/**"],
-      "dependsOn": []
+      "env": []
     },
     "lint": {
       "dependsOn": ["^build"]
@@ -19,6 +15,7 @@
       "persistent": true
     },
     "clean": {
+      "dependsOn": ["^clean"],
       "cache": false
     }
   }
