@@ -19,3 +19,13 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     (req as AuthRequest).user = decoded;
     next();
 }
+
+export function isAdmin(req: Request, res: Response, next: NextFunction) {
+    const user = (req as AuthRequest).user;
+    if(!user.isAdmin){
+        res.status(403).json({ message: 'Forbidden. Only admin can access' })
+        return
+    }
+
+    next();
+}

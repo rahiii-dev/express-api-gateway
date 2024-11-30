@@ -1,5 +1,5 @@
 import { grpcWrapper } from '@app/core';
-import IUserSevice from '../interface/user.service.interfae';
+import IUserSevice from '../types/user.service.interfae';
 
 class UserController {
   private userSevice:IUserSevice;

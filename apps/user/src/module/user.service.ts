@@ -1,5 +1,5 @@
 import { BadRequestError } from "@app/common";
-import IUserRepository from "../interface/user.repository.interface";
+import IUserRepository from "../types/user.repository.interface";
 import { UserCreateDto, UserLoginDto, UserLoginResponseDto, UserResponseDto } from "./user.dto";
 import bcrypt from 'bcryptjs';
 

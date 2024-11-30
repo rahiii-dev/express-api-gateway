@@ -15,12 +15,17 @@ import {
 
 import database from './database';
 import { InternalError } from '@app/common';
+import { isValidObjectId } from 'mongoose';
 
 export class Repository<T extends Document> {
     private collection: Collection<T>;
 
     constructor(collectionName: string) {
         this.collection = database.getCollection<T>(collectionName);
+    }
+
+    isValidId(id: any){
+        return isValidObjectId(id);
     }
 
     // Create document
@@ -66,10 +71,10 @@ export class Repository<T extends Document> {
     }
 
     // Update document
-    async update(query: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<boolean> {
+    async update(query: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<UpdateResult> {
         try {
             const result: UpdateResult = await this.collection.updateOne(query, update, options);
-            return result.modifiedCount > 0;
+            return result;
         } catch (error) {
             throw new InternalError(`Failed to update document`);
         }
@@ -79,6 +84,7 @@ export class Repository<T extends Document> {
     async delete(query: Filter<T>, options?: DeleteOptions): Promise<boolean> {
         try {
             const result = await this.collection.deleteOne(query, options);
+            console.log({result});
             return result.deletedCount > 0;
         } catch (error) {
             throw new InternalError(`Failed to delete document`);

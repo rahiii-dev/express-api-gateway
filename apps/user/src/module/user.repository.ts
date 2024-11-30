@@ -1,6 +1,6 @@
 import { Repository } from "@app/core";
 import { IUser } from "./user.model";
-import IUserRepository from "../interface/user.repository.interface";
+import IUserRepository from "../types/user.repository.interface";
 import { UserResponseDto } from "./user.dto";
 import { InternalError } from "@app/common";
 

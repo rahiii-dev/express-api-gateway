@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import { logger } from '@app/core';
 import morgan from 'morgan';
 import userRoutes from './modules/user/routes';
+import productRoutes from './modules/product/routes';
 
 class Server {
   public app: Application;
@@ -32,6 +33,7 @@ class Server {
     });
 
     this.app.use('/api',userRoutes);
+    this.app.use('/api',productRoutes);
   }
 
   start(PORT: string) {
