@@ -19,6 +19,10 @@ export function grpcWrapper(controller: Function) {
       if(process.env.NODE_ENV != "production"){
         logger.error("gRPC Error: ", error);
       }
+      
+      if(error instanceof InternalError){
+        console.error(error);
+      }
 
       let message = "An error occurred while processing the request.";
       let code = grpc.status.INTERNAL;

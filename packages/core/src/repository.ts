@@ -34,7 +34,7 @@ export class Repository<T extends Document> {
             const result = await this.collection.insertOne(document as OptionalUnlessRequiredId<T>);
             return result;
         } catch (error) {
-            throw new InternalError(`Failed to create document`);
+            throw new InternalError(`Failed to create document \n ${error}`);
         }
     }
 
@@ -44,7 +44,7 @@ export class Repository<T extends Document> {
             const result = await this.collection.find(query, options).toArray();
             return result;
         } catch (error) {
-            throw new InternalError(`Failed to find documents`);
+            throw new InternalError(`Failed to find documents, \n ${error}`);
         }
     }
 
@@ -54,7 +54,7 @@ export class Repository<T extends Document> {
             const result = await this.collection.findOne(query, options);
             return result;
         } catch (error) {
-            throw new InternalError(`Failed to find document`);
+            throw new InternalError(`Failed to find document \n ${error}`);
         }
     }
 
@@ -66,7 +66,7 @@ export class Repository<T extends Document> {
             const result = await this.collection.findOne(filter);
             return result; 
         } catch (error) {
-            throw new InternalError(`Failed to find document by id`);
+            throw new InternalError(`Failed to find document by id \n ${error}`);
         }
     }
 
@@ -87,7 +87,7 @@ export class Repository<T extends Document> {
             console.log({result});
             return result.deletedCount > 0;
         } catch (error) {
-            throw new InternalError(`Failed to delete document`);
+            throw new InternalError(`Failed to delete document \n ${error}`);
         }
     }
 
@@ -97,7 +97,7 @@ export class Repository<T extends Document> {
             const result = await this.collection.countDocuments(query);
             return result;
         } catch (error) {
-            throw new InternalError(`Failed to count documents`);
+            throw new InternalError(`Failed to count documents \n ${error}`);
         }
     }
 
@@ -106,7 +106,7 @@ export class Repository<T extends Document> {
         try {
             await this.collection.dropIndexes();
         } catch (error) {
-            throw new InternalError(`Failed to drop indexes`);
+            throw new InternalError(`Failed to drop indexes \n ${error}`);
         }
     }
 }

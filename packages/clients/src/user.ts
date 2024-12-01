@@ -3,8 +3,10 @@ import { protoLoader } from "@app/common";
 
 const userProto = protoLoader('user.proto');
 
+const userServiceAddress = process.env.USER_SERVICE_URL || `localhost:5001`;
+
 const userServiceClient = new userProto.userPackage.userService(
-  `localhost:${process.env.USER_SERVICE_PORT || 5001}`, 
+  userServiceAddress, 
   grpc.credentials.createInsecure()
 );
 

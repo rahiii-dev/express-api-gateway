@@ -2,14 +2,10 @@ import { MongoClient, Db, Collection, Document } from 'mongodb';
 import logger from './logger';
 
 class Database {
-  private dbUrl: string;
+  private dbUrl = process.env.DATABASE_URL;
   private dbName = process.env.DATABASE_NAME || 'default_db';
   private dbClient: MongoClient | null = null;
   private databaseInstance: Db | null = null;
-
-  constructor() {
-    this.dbUrl = process.env.DATABASE_URL || ''; 
-  }
 
   public async connect(): Promise<void> {
     if (this.dbClient) {
@@ -27,7 +23,7 @@ class Database {
       await this.dbClient.connect();
 
       this.databaseInstance = this.dbClient.db(this.dbName);
-
+      logger.info(`Database: ${this.dbUrl}`)
       logger.info(`Connected to database: ${this.dbName}`);
     } catch (error: any) {
       logger.error('Failed to connect to database', { error: error.message });
@@ -44,6 +40,19 @@ class Database {
     }
   }
 
+  public async createCollectionIfNotExists(collectionName: string): Promise<void> {
+    if (!this.databaseInstance) {
+      throw new Error('Database not connected');
+    }
+    const collections = await this.databaseInstance.listCollections().toArray();
+    const collectionExists = collections.some(col => col.name === collectionName);
+
+    if (!collectionExists) {
+      await this.databaseInstance.createCollection(collectionName);
+      logger.info(`Created collection: ${collectionName}`);
+    }
+  }
+
   /**
    * Retrieve a MongoDB collection by name.
    * @param name - The name of the collection.
@@ -53,8 +62,10 @@ class Database {
     if (!this.databaseInstance) {
       throw new Error('Database not connected');
     }
+
     return this.databaseInstance.collection<T>(name);
   }
+
   /**
    * Checks if the database connection is active.
    * @returns `true` if connected, `false` otherwise.

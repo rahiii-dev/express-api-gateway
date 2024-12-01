@@ -1,29 +1,66 @@
-version: "3"
+version: "3.8"
 
 services:
-  web:
-    container_name: web
+  proxy:
+    container_name: proxy
     build:
       context: .
-      dockerfile: ./apps/web/Dockerfile
+      dockerfile: ./apps/proxy/Dockerfile
     restart: always
     ports:
-      - 3000:3000
+      - 8080:8080
     networks:
       - app_network
-  api:
-    container_name: api
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile
-    restart: always
-    ports:
-      - 3001:3001
-    networks:
-      - app_network
+    environment:
+      - USER_SERVICE_URL=user:5001
+      - PRODUCT_SERVICE_URL=product:5002
+    depends_on:
+      - user
+      - product
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
+  user:
+    container_name: user
+    build:
+      context: .
+      dockerfile: ./apps/user/Dockerfile
+    restart: always
+    networks:
+      - app_network
+    environment:
+      - DATABASE_URL=mongodb://root:rootpassword@mongo:27017
+      - DATABASE_NAME= user_db
+    depends_on:
+      - mongo_db  
+
+  product:
+    container_name: product
+    build:
+      context: .
+      dockerfile: ./apps/product/Dockerfile
+    restart: always
+    networks:
+      - app_network
+    environment:
+      - DATABASE_URL=mongodb://root:rootpassword@mongo:27017
+      - DATABASE_NAME= product_db  
+    depends_on:
+      - mongo_db
+
+  mongo_db:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    networks:
+      - app_network
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+    volumes:
+      - mongo_data:/data/db
+
 networks:
   app_network:
-    external: true
+    driver: bridge  
+
+volumes:
+  mongo_data:  
