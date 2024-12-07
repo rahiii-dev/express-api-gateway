@@ -17,6 +17,7 @@ services:
     depends_on:
       - user
       - product
+      - order
 
   user:
     container_name: user
@@ -43,6 +44,20 @@ services:
     environment:
       - DATABASE_URL=mongodb://root:rootpassword@mongo:27017
       - DATABASE_NAME= product_db  
+    depends_on:
+      - mongo_db
+
+  order:
+    container_name: order
+    build:
+      context: .
+      dockerfile: ./apps/order/Dockerfile
+    restart: always
+    networks:
+      - app_network
+    environment:
+      - DATABASE_URL=mongodb://root:rootpassword@mongo:27017
+      - DATABASE_NAME= order_db  
     depends_on:
       - mongo_db
 
