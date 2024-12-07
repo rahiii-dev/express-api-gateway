@@ -3,6 +3,8 @@ import { logger } from '@app/core';
 import morgan from 'morgan';
 import userRoutes from './modules/user/routes';
 import productRoutes from './modules/product/routes';
+import orderRoutes from './modules/order/routes';
+import { notFoundHandler } from './middleware/appError.middleware';
 
 class Server {
   public app: Application;
@@ -34,6 +36,9 @@ class Server {
 
     this.app.use('/api',userRoutes);
     this.app.use('/api',productRoutes);
+    this.app.use('/api',orderRoutes);
+
+    this.app.use(notFoundHandler);
   }
 
   start(PORT: string) {

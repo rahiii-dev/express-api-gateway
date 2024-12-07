@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package orderPackage;
+
+import "google/protobuf/empty.proto";
+
+message Order {
+  string _id = 1;
+  string user = 2; 
+  repeated OrderItem items = 3; 
+  double totalAmount = 4; 
+  string status = 5; 
+  string createdAt = 6; 
+  string updatedAt = 7; 
+}
+
+message OrderItem {
+  string product = 1;
+  string name = 2; 
+  int32 quantity = 3; 
+  double price = 4; 
+}
+
+message CreateOrderRequest {
+  string userId = 1; 
+  repeated OrderItem items = 2; 
+}
+
+message CreateOrderResponse {
+  string orderId = 1; 
+  string message = 2; 
+}
+
+message GetOrderRequest {
+  string orderId = 1;
+}
+
+message GetOrdersByUserRequest {
+  string userId = 1; 
+}
+
+message GetOrdersResponse {
+  repeated Order orders = 1; 
+}
+
+message UpdateOrderStatusRequest {
+  string orderId = 1; 
+  string status = 2; 
+}
+
+message UpdateOrderStatusResponse {
+  string message = 1; 
+  Order order = 2; 
+}
+
+service OrderService {
+  rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrderById (GetOrderRequest) returns (Order);
+  rpc GetOrdersByUser (GetOrdersByUserRequest) returns (GetOrdersResponse);
+  rpc UpdateOrderStatus (UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+
+  rpc ListAllOrders (google.protobuf.Empty) returns (GetOrdersResponse);
+}
