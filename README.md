@@ -39,7 +39,7 @@ This repo is configured to work with Docker and Docker Compose. To build and run
    docker compose -f docker-compose.yml up -d
    ```
 
-   Open [http://localhost:3000](http://localhost:8080) to access the gateway.
+   Open [http://localhost:8080](http://localhost:8080) to access the gateway.
 
 3. **Shutdown all running containers**:
    ```bash
