@@ -1,72 +1,86 @@
-# Turborepo Docker starter
+![System Architecture](./architecture-design.png)
 
-This is an official Docker starter Turborepo.
+---
 
-## Using this example
+### **Overview**
+`Express API Gateway` is a microservices-based system with an API Gateway using **gRPC** for inter-service communication. Built with a **monorepo architecture** managed by [**Turborepo**](https://turbo.build/).
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest -e with-docker
-```
-
-## What's inside?
+## **What's Inside?**
 
 This Turborepo includes the following:
 
-### Apps and Packages
+### **Apps and Packages**
 
-- `web`: a [Next.js](https://nextjs.org/) app
-- `api`: an [Express](https://expressjs.com/) server
-- `@repo/ui`: a React component library
-- `@repo/logger`: Isomorphic logger (a small wrapper around console.log)
-- `@repo/eslint-config`: ESLint presets
-- `@repo/typescript-config`: tsconfig.json's used throughout the monorepo
-- `@repo/jest-presets`: Jest configurations
+- **`proxy`**: An [Express.js](https://expressjs.com/) API Gateway for routing and communication.
+- **`user`**: Manages user-related operations using MongoDB.
+- **`product`**: Handles product management and inventory with MongoDB.
+- **`order`**: Processes orders and tracks status using MongoDB.
+- **`@app/common`**: Shared utilities and constants.
+- **`@app/core`**: Core functionalities and shared helpers.
+- **`@app/clients`**: gRPC clients for inter-service communication.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Each package/app is written in **[TypeScript](https://www.typescriptlang.org/)** for strong type safety and consistency.
 
-### Docker
+---
 
-This repo is configured to be built with Docker, and Docker compose. To build all apps in this repo:
+## **Docker**
 
-```
-# Install dependencies
-yarn install
+This repo is configured to work with Docker and Docker Compose. To build and run all apps:
 
-# Create a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-docker network create app_network
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-# Build prod using new BuildKit engine
-COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
+2. **Start all services in detached mode**:
+   ```bash
+   docker compose -f docker-compose.yml up -d
+   ```
 
-# Start prod in detached mode
-docker-compose -f docker-compose.yml up -d
-```
+   Open [http://localhost:3000](http://localhost:8080) to access the gateway.
 
-Open http://localhost:3000.
+3. **Shutdown all running containers**:
+   ```bash
+   docker kill $(docker ps -q) && docker rm $(docker ps -a -q)
+   ```
+---
 
-To shutdown all running containers:
+## **Setup**
 
-```
-# Stop all running containers
-docker kill $(docker ps -q) && docker rm $(docker ps -a -q)
-```
+1. **Clone and install dependencies**:
+   ```bash
+   git clone https://github.com/rahiii-dev/express-api-gateway
+   cd express-api-gateway
+   npm install
+   ```
 
-### Remote Caching
+2. **Run individual services**:
+   ```bash
+   cd apps/{service-name}
+   npm run dev
+   ```
 
-This example includes optional remote caching. In the Dockerfiles of the apps, uncomment the build arguments for `TURBO_TEAM` and `TURBO_TOKEN`. Then, pass these build arguments to your Docker build.
+3. **Start the gateway**:
+   ```bash
+   cd apps/proxy
+   npm run dev
+   ```
 
-You can test this behavior using a command like:
+4. **Run everything with Turborepo**[FROM ROOT]:
+   ```bash
+   npm run dev
+   ```
 
-`docker build -f apps/web/Dockerfile . --build-arg TURBO_TEAM=“your-team-name” --build-arg TURBO_TOKEN=“your-token“ --no-cache`
+---
 
-### Utilities
+## **Tech Stack**
+- **Backend**: Node.js, Express.js, gRPC
+- **Database**: MongoDB
+- **Monorepo**: Turborepo
 
-This Turborepo has some additional tools already setup for you:
+---
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Jest](https://jestjs.io) test runner for all things JavaScript
-- [Prettier](https://prettier.io) for code formatting
+## **License**
+Licensed under the MIT License.
